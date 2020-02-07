@@ -89,9 +89,9 @@ begin
    { gameobj1.Position.X := gameobj1.Position.X + 2;}
     gameobj1.RotationAngle := gameobj1.RotationAngle + 2.0;
   if (currGameInput.UpButtonPressed) then
-    gameobj1.Position.Y := gameobj1.Position.Y + 2.0;
-  if (currGameInput.DownButtonPressed) then
     gameobj1.Position.Y := gameobj1.Position.Y - 2.0;
+  if (currGameInput.DownButtonPressed) then
+    gameobj1.Position.Y := gameobj1.Position.Y + 2.0;
 
 
   { change state because of game rules, physics... }
