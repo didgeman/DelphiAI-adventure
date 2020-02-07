@@ -3,7 +3,7 @@
         <ProjectGuid>{448F0B11-E8E2-47AA-B84A-7D58C965C3F6}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
-        <Projects Include="CentralGUI.dproj">
+        <Projects Include="GUICentral.dproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -14,23 +14,23 @@
             <Default.Personality/>
         </BorlandProject>
     </ProjectExtensions>
-    <Target Name="CentralGUI">
-        <MSBuild Projects="CentralGUI.dproj"/>
+    <Target Name="GUICentral">
+        <MSBuild Projects="GUICentral.dproj"/>
     </Target>
-    <Target Name="CentralGUI:Clean">
-        <MSBuild Projects="CentralGUI.dproj" Targets="Clean"/>
+    <Target Name="GUICentral:Clean">
+        <MSBuild Projects="GUICentral.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="CentralGUI:Make">
-        <MSBuild Projects="CentralGUI.dproj" Targets="Make"/>
+    <Target Name="GUICentral:Make">
+        <MSBuild Projects="GUICentral.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="CentralGUI"/>
+        <CallTarget Targets="GUICentral"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="CentralGUI:Clean"/>
+        <CallTarget Targets="GUICentral:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="CentralGUI:Make"/>
+        <CallTarget Targets="GUICentral:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
