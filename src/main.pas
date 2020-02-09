@@ -5,7 +5,7 @@ interface
 uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects,
-  FMX.Layouts;
+  FMX.Layouts, FMX.Controls.Presentation, FMX.StdCtrls;
 
 type
   SGameInput = record
@@ -15,10 +15,13 @@ type
     DownButtonPressed: boolean;
   end;
 
-  TClientForm = class(TForm)
+  TMainForm = class(TForm)
     gameobj1: TRectangle;
     gameLoopTimer: TTimer;
-    ClientLayout: TLayout;
+    FrameLayout: TLayout;
+    MenuPanel: TPanel;
+    StatusPanel: TPanel;
+    GameViewPort: TRectangle;
     procedure OnGameLoopTick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
       Shift: TShiftState);
@@ -31,15 +34,36 @@ type
   end;
 
 var
-  ClientForm: TClientForm;
+  MainForm: TMainForm;
   currGameInput: SGameInput;
+
+{ module procs and functions since they are app-wide unique anyway }
+{ if they should be obj-bound, a kind of Main-Class-Obj have to be invented }
+procedure startGame();
+procedure stopGame();
 
 implementation
 
 {$R *.fmx}
 
+var
+  IsGameRunning: Boolean;
 
-procedure TClientForm.FormKeyDown(Sender: TObject; var Key: Word;
+
+procedure startGame();
+begin
+  IsGameRunning := True;
+end;
+
+procedure stopGame();
+begin
+  IsGameRunning := False;
+end;
+
+
+{--- START  Win event handlers  ---}
+
+procedure TMainForm.FormKeyDown(Sender: TObject; var Key: Word;
   var KeyChar: Char; Shift: TShiftState);
 begin
   case Key of
@@ -60,10 +84,13 @@ begin
       currGameInput.DownButtonPressed := True;
     end;
   end;
+  case KeyChar of
+  'P', 'p': if IsGameRunning then IsGameRunning := False else IsGameRunning := True;
+  end;
 
 end;
 
-procedure TClientForm.FormKeyUp(Sender: TObject; var Key: Word;
+procedure TMainForm.FormKeyUp(Sender: TObject; var Key: Word;
   var KeyChar: Char; Shift: TShiftState);
 begin
   case Key of
@@ -75,30 +102,38 @@ begin
 
 end;
 
-procedure TClientForm.OnGameLoopTick(Sender: TObject);
+procedure TMainForm.OnGameLoopTick(Sender: TObject);
 begin
-  { process the Input-Info for player actions }
-  if (currGameInput.LeftButtonPressed = True)
-      {and (gameobj1.Position.X - 2 >= ClientLayout.Position.X)} then
-   { gameobj1.Position.X := gameobj1.Position.X - 2;}
-    gameobj1.RotationAngle := gameobj1.RotationAngle - 2.0;
+  if IsGameRunning then begin
 
-  if (currGameInput.RightButtonPressed = True)
-      {and (gameobj1.Position.X + 2 + gameobj1.Width <=
-       ClientLayout.Position.X + ClientLayout.Width)} then
-   { gameobj1.Position.X := gameobj1.Position.X + 2;}
-    gameobj1.RotationAngle := gameobj1.RotationAngle + 2.0;
-  if (currGameInput.UpButtonPressed) then
-    gameobj1.Position.Y := gameobj1.Position.Y - 2.0;
-  if (currGameInput.DownButtonPressed) then
-    gameobj1.Position.Y := gameobj1.Position.Y + 2.0;
+    { process the Input-Info for player actions }
+    if (currGameInput.LeftButtonPressed = True)
+        {and (gameobj1.Position.X - 2 >= ClientLayout.Position.X)} then
+     { gameobj1.Position.X := gameobj1.Position.X - 2;}
+      gameobj1.RotationAngle := gameobj1.RotationAngle - 2.0;
+
+    if (currGameInput.RightButtonPressed = True)
+        {and (gameobj1.Position.X + 2 + gameobj1.Width <=
+         ClientLayout.Position.X + ClientLayout.Width)} then
+     { gameobj1.Position.X := gameobj1.Position.X + 2;}
+      gameobj1.RotationAngle := gameobj1.RotationAngle + 2.0;
+    if (currGameInput.UpButtonPressed) then
+      gameobj1.Position.Y := gameobj1.Position.Y - 2.0;
+    if (currGameInput.DownButtonPressed) then
+      gameobj1.Position.Y := gameobj1.Position.Y + 2.0;
 
 
-  { change state because of game rules, physics... }
+    { change state because of game rules, physics... }
 
 
-  { render ?? implicit }
+    { render ?? implicit }
+  end;
 
+end;
+
+initialization
+begin
+  IsGameRunning := True;
 end;
 
 end.
