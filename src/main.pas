@@ -37,11 +37,16 @@ type
     { Public-Deklarationen }
   end;
 
+const
+  FPS_HISTORY_SIZE = 15;
+
 var
   MainForm: TMainForm;
   currGameInput: SGameInput;
   fps: Double;
-  lastTime, currentTime, elapsedTime: System.Cardinal;
+  fpsHistory: array[0..FPS_HISTORY_SIZE] of Double;
+  fpsIdx: Integer;
+  lastTime, currentTime, elapsedTime, lastFPSDisplayTime: System.Cardinal;
 
 { module procs and functions since they are app-wide unique anyway }
 { if they should be obj-bound, a kind of Main-Class-Obj have to be invented }
@@ -55,6 +60,18 @@ implementation
 var
   IsGameRunning: Boolean;
 
+
+function getMeanFPS: Double;
+var
+  i: Integer;
+  sum: Double;
+begin
+  sum := 0;
+  for i := 0 to FPS_HISTORY_SIZE-1 do begin
+    sum := sum + fpsHistory[i];
+  end;
+  Result := sum / FPS_HISTORY_SIZE;
+end;
 
 procedure startGame();
 begin
@@ -80,6 +97,9 @@ end;
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
   lastTime := TThread.GetTickCount;
+  Fillchar(fpsHistory, SizeOf(fpsHistory), 0);
+  fpsIdx := 0;
+  lastFPSDisplayTime := TThread.GetTickCount;
 end;
 
 procedure TMainForm.FormKeyDown(Sender: TObject; var Key: Word;
@@ -126,10 +146,21 @@ begin
   if IsGameRunning then begin
     currentTime := TThread.GetTickCount;
     elapsedTime := currentTime - lastTime;    { will be used for update() }
-    fps := (1000.0 / Double(elapsedTime));
+    if fpsIdx > FPS_HISTORY_SIZE - 1 then
+      fpsIdx := 0
+    else
+      fpsIdx := fpsIdx + 1;
+    fpsHistory[fpsIdx] := (1000.0 / Double(elapsedTime));
+
     lastTime := currentTime;
+
     GameViewPort.BeginUpdate;
-    lblFPS_Counter.Text := fps.ToString;
+    { if its time to update our fps-Display Counter }
+    if currentTime > lastFPSDisplayTime + 1000 then begin
+      lblFPS_Counter.Text := Format('%.2f', [getMeanFPS]);
+      lastFPSDisplayTime := currentTime;
+    end;
+
     { process the Input-Info for player actions }
     if (currGameInput.LeftButtonPressed = True)
         {and (gameobj1.Position.X - 2 >= ClientLayout.Position.X)} then
