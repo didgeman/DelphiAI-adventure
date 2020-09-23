@@ -47,6 +47,7 @@ var
   fpsHistory: array[0..FPS_HISTORY_SIZE] of Double;
   fpsIdx: Integer;
   lastTime, currentTime, elapsedTime, lastFPSDisplayTime: System.Cardinal;
+  GameObjList: TStringList;
 
 { module procs and functions since they are app-wide unique anyway }
 { if they should be obj-bound, a kind of Main-Class-Obj have to be invented }
@@ -60,6 +61,12 @@ implementation
 var
   IsGameRunning: Boolean;
 
+procedure InitGame;
+begin
+  GameObjList := TStringList.Create;  {TODO: find place for the freeing or register it as approved leak.}
+  { Create a bunch of TRectangle's (check if they are contigous in memory layout) }
+
+end;
 
 function getMeanFPS: Double;
 var
@@ -91,7 +98,8 @@ procedure TMainForm.chk_IsDoubleBufferedChange(Sender: TObject);
 begin
   {if chk_IsDoubleBuffered.IsChecked then
     DoubleBuffered := True
-  else}
+  else
+    DoubleBuffered := False;}
 end;
 
 procedure TMainForm.FormCreate(Sender: TObject);
@@ -100,6 +108,7 @@ begin
   Fillchar(fpsHistory, SizeOf(fpsHistory), 0);
   fpsIdx := 0;
   lastFPSDisplayTime := TThread.GetTickCount;
+  InitGame;
 end;
 
 procedure TMainForm.FormKeyDown(Sender: TObject; var Key: Word;
@@ -155,6 +164,7 @@ begin
     lastTime := currentTime;
 
     GameViewPort.BeginUpdate;
+
     { if its time to update our fps-Display Counter }
     if currentTime > lastFPSDisplayTime + 1000 then begin
       lblFPS_Counter.Text := Format('%.2f', [getMeanFPS]);

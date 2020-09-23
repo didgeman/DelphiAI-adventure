@@ -1,6 +1,9 @@
 program GUICentral;
 
 uses
+  {$IFDEF DEBUG}
+  FastMM4,
+  {$ENDIF}
   System.StartUpCopy,
   FMX.Forms,
   main in 'src\main.pas' {MainForm},
