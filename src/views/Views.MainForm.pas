@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, Vcl.ToolWin, Vcl.ActnMan,
   Vcl.ActnCtrls, Vcl.ActnMenus, Vcl.StdStyleActnCtrls, Vcl.ExtCtrls,
-  Vcl.ComCtrls, Views.DrawFrame;
+  Vcl.ComCtrls, Views.DrawFrame, Data.DB;
 
 type
   /// represents top most window and therefore kind of view host

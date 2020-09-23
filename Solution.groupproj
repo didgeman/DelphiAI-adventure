@@ -9,6 +9,9 @@
         <Projects Include="Workbench.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="MVVM_Minimal.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -35,14 +38,23 @@
     <Target Name="Workbench:Make">
         <MSBuild Projects="Workbench.dproj" Targets="Make"/>
     </Target>
+    <Target Name="MVVM_Minimal">
+        <MSBuild Projects="MVVM_Minimal.dproj"/>
+    </Target>
+    <Target Name="MVVM_Minimal:Clean">
+        <MSBuild Projects="MVVM_Minimal.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="MVVM_Minimal:Make">
+        <MSBuild Projects="MVVM_Minimal.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="GUICentral;Workbench"/>
+        <CallTarget Targets="GUICentral;Workbench;MVVM_Minimal"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="GUICentral:Clean;Workbench:Clean"/>
+        <CallTarget Targets="GUICentral:Clean;Workbench:Clean;MVVM_Minimal:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="GUICentral:Make;Workbench:Make"/>
+        <CallTarget Targets="GUICentral:Make;Workbench:Make;MVVM_Minimal:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
