@@ -6,6 +6,9 @@
         <Projects Include="GUICentral.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="Workbench.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -23,14 +26,23 @@
     <Target Name="GUICentral:Make">
         <MSBuild Projects="GUICentral.dproj" Targets="Make"/>
     </Target>
+    <Target Name="Workbench">
+        <MSBuild Projects="Workbench.dproj"/>
+    </Target>
+    <Target Name="Workbench:Clean">
+        <MSBuild Projects="Workbench.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Workbench:Make">
+        <MSBuild Projects="Workbench.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="GUICentral"/>
+        <CallTarget Targets="GUICentral;Workbench"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="GUICentral:Clean"/>
+        <CallTarget Targets="GUICentral:Clean;Workbench:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="GUICentral:Make"/>
+        <CallTarget Targets="GUICentral:Make;Workbench:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
