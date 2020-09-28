@@ -9,7 +9,8 @@ uses
   View in 'src\mvvm\View.pas' {MainView},
   Models.Model in 'src\mvvm\Models.Model.pas' {DataModel: TDataModule},
   Interfaces.IView in 'src\mvvm\Interfaces.IView.pas',
-  ViewModels.ViewModel in 'src\mvvm\ViewModels.ViewModel.pas';
+  ViewModels.ViewModel in 'src\mvvm\ViewModels.ViewModel.pas',
+  TestFormLiveBind in 'src\mvvm\TestFormLiveBind.pas' {TestFormLB};
 
 {$R *.res}
 
@@ -17,5 +18,6 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TMainView, MainView);
+  Application.CreateForm(TTestFormLB, TestFormLB);
   Application.Run;
 end.

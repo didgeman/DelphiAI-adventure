@@ -8,10 +8,11 @@ uses
   Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Grids, Data.Bind.Components, Data.Bind.DBScope,
   ViewModels.ViewModel, Data.Bind.Controls, Data.Bind.EngExt, Vcl.Bind.DBEngExt,
   Vcl.Bind.Grid, System.Rtti, System.Bindings.Outputs, Vcl.Bind.Editors,
-  Data.Bind.Grid, Vcl.Buttons, Vcl.Bind.Navigator, Data.DB, Interfaces.IView;
+  Data.Bind.Grid, Vcl.Buttons, Vcl.Bind.Navigator, Data.DB, Interfaces.IView,
+  Datasnap.DBClient, TestFormLiveBind;
 
 type
-  TMainView = class(TForm, IView)  { TForm inherits from TInterfacedObject (checked)}
+  TMainView = class(TForm, IView)  { TForm inherits from TInterfacedObject }
     StringGrid1: TStringGrid;
     Image1: TImage;
     Edit1: TEdit;
@@ -20,12 +21,14 @@ type
     NavigatorBindSourceDB1: TBindNavigator;
     BindingsList1: TBindingsList;
     LinkGridToDataSourceBindSourceDB1: TLinkGridToDataSource;
-    Button1: TButton;
+    btnToggleConnect: TButton;
+    btnOpen2ndData: TButton;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure BindSourceDB1SubDataSourceDataChange(Sender: TObject;
       Field: TField);
     procedure Button1Click(Sender: TObject);
+    procedure btnOpen2ndDataClick(Sender: TObject);
   private
     { Private-Deklarationen }
     FViewModel: TViewModel;
@@ -49,6 +52,11 @@ begin
   UpdateData;
 end;
 
+procedure TMainView.btnOpen2ndDataClick(Sender: TObject);
+begin
+  TestFormLB.ShowModal;
+end;
+
 procedure TMainView.Button1Click(Sender: TObject);
 begin
   FViewModel.DataButton;
@@ -69,7 +77,7 @@ end;
 
 procedure TMainView.UpdateData;
 begin
-  Edit1.Text := FViewModel.Name;
+//  Edit1.Text := FViewModel.Name;
   Memo1.Text := FViewModel.Notes;
   Image1.Picture.Graphic := FViewModel.FishPicture;
 end;

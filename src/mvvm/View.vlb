@@ -1,24 +1,31 @@
 ﻿[Image1]
-Coordinates=10,10,49,51
+Coordinates=10,80,49,51
 
 [StringGrid1]
-Coordinates=500,90,70,51
+Coordinates=570,80,70,51
 
 [Edit1]
-Coordinates=116,94,40,51
+Coordinates=40,270,40,51
+Visible=True
 
 [Memo1]
-Coordinates=186,94,53,51
+Coordinates=390,200,53,51
 
 [BindSourceDB1]
 Coordinates=330,10,92,69
 
 []
-Coordinates=374,1,91,36
+Coordinates=317,80,87,195
 
 [BindingsList1]
 Coordinates=16,87,82,33
 
 [NavigatorBindSourceDB1]
 Coordinates=0,0,140,51
+
+[btnOpen2ndData]
+Coordinates=10,150,97,51
+
+[btnToggleConnect]
+Coordinates=400,130,105,51
 
