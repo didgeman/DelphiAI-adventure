@@ -6,7 +6,8 @@ uses
   Views.MainForm in 'src\views\Views.MainForm.pas' {MainForm},
   Views.DrawFrame in 'src\views\Views.DrawFrame.pas' {DrawFrame: TFrame},
   Controller.DrawingCtrl in 'src\Controller\Controller.DrawingCtrl.pas',
-  Models.MainModel in 'src\models\Models.MainModel.pas' {MainModel: TDataModule};
+  Models.MainModel in 'src\models\Models.MainModel.pas' {MainModel: TDataModule},
+  ShapeCHierarch in 'src\models\ShapeCHierarch.pas';
 
 {$R *.res}
 

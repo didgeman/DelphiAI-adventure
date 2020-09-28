@@ -46,8 +46,8 @@ object MainForm: TMainForm
     end
   end
   object MainMenu: TMainMenu
-    Left = 960
-    Top = 32
+    Left = 952
+    Top = 16
     object MnuFile: TMenuItem
       Caption = '&File'
     end

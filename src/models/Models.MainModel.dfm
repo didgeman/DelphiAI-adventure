@@ -1,5 +1,5 @@
 object MainModel: TMainModel
   OldCreateOrder = False
-  Height = 150
-  Width = 215
+  Height = 358
+  Width = 537
 end
