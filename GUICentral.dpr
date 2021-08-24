@@ -6,8 +6,8 @@ uses
   {$ENDIF}
   System.StartUpCopy,
   FMX.Forms,
-  main in 'src\main.pas' {MainForm},
-  u_Game in 'src\u_Game.pas';
+  main {MainForm},
+  u_Game;
 
 {$R *.res}
 

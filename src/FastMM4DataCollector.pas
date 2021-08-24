@@ -1,6 +1,6 @@
 unit FastMM4DataCollector;
 
-{$I FastMM4Options.inc}
+{$I .\include\FastMM4Options.inc}
 
 interface
 

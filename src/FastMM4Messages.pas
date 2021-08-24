@@ -10,7 +10,7 @@ unit FastMM4Messages;
 
 interface
 
-{$Include FastMM4Options.inc}
+{$Include .\include\FastMM4Options.inc}
 
 const
   {The name of the debug info support DLL}
