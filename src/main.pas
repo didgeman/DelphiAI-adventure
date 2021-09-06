@@ -3,9 +3,10 @@ unit main;
 interface
 
 uses
-  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
-  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects,
-  FMX.Layouts, FMX.Controls.Presentation, FMX.StdCtrls;
+  System.SysUtils, System.Types, System.UITypes, System.Generics.Collections,
+  System.Classes, System.Variants, FMX.Types, FMX.Controls, FMX.Forms,
+  FMX.Graphics, FMX.Dialogs, FMX.Objects, FMX.Layouts,
+  FMX.Controls.Presentation, FMX.StdCtrls, FMX.Calendar, RegularPolygon;
 
 type
   SGameInput = record
@@ -16,14 +17,14 @@ type
   end;
 
   TMainForm = class(TForm)
-    gameobj1: TRectangle;
     gameLoopTimer: TTimer;
     FrameLayout: TLayout;
     MenuPanel: TPanel;
     StatusPanel: TPanel;
-    GameViewPort: TRectangle;
     chk_IsDoubleBuffered: TCheckBox;
     lblFPS_Counter: TLabel;
+    GameViewPort: TPanel;
+    RegularPolygon1: TRegularPolygon;
     procedure OnGameLoopTick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
       Shift: TShiftState);
@@ -31,6 +32,9 @@ type
       Shift: TShiftState);
     procedure chk_IsDoubleBufferedChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure GameViewPortMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Single);
   private
     { Private-Deklarationen }
   public
@@ -47,7 +51,7 @@ var
   fpsHistory: array[0..FPS_HISTORY_SIZE] of Double;
   fpsIdx: Integer;
   lastTime, currentTime, elapsedTime, lastFPSDisplayTime: System.Cardinal;
-  GameObjList: TStringList;
+  GameObjList: TObjectList<TRectangle>;
 
 { module procs and functions since they are app-wide unique anyway }
 { if they should be obj-bound, a kind of Main-Class-Obj have to be invented }
@@ -63,9 +67,8 @@ var
 
 procedure InitGame;
 begin
-  GameObjList := TStringList.Create;  {TODO: find place for the freeing or register it as approved leak.}
-  { Create a bunch of TRectangle's (check if they are contigous in memory layout) }
-
+  { ameObjList := TObjectList<TRectangle>.Create;
+  (check if they are contigous in memory layout) }
 end;
 
 function getMeanFPS: Double;
@@ -89,6 +92,7 @@ end;
 procedure stopGame();
 begin
   IsGameRunning := False;
+
 end;
 
 
@@ -109,6 +113,14 @@ begin
   fpsIdx := 0;
   lastFPSDisplayTime := TThread.GetTickCount;
   InitGame;
+end;
+
+procedure TMainForm.FormDestroy(Sender: TObject);
+begin
+  {
+  GameObjList.Clear;
+  GameObjList.Free;
+  }
 end;
 
 procedure TMainForm.FormKeyDown(Sender: TObject; var Key: Word;
@@ -150,6 +162,18 @@ begin
 
 end;
 
+procedure TMainForm.GameViewPortMouseUp(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Single);
+Var
+  newObject: TRectangle;
+begin
+  newObject := TRectangle.Create(MainForm.GameViewPort);
+  { GameObjList.Add(newObject); }
+  MainForm.AddObject(newObject);
+  newObject.Position.X := X;
+  newObject.Position.Y := Y;
+end;
+
 procedure TMainForm.OnGameLoopTick(Sender: TObject);
 begin
   if IsGameRunning then begin
@@ -171,21 +195,7 @@ begin
       lastFPSDisplayTime := currentTime;
     end;
 
-    { process the Input-Info for player actions }
-    if (currGameInput.LeftButtonPressed = True)
-        {and (gameobj1.Position.X - 2 >= ClientLayout.Position.X)} then
-     { gameobj1.Position.X := gameobj1.Position.X - 2;}
-      gameobj1.RotationAngle := gameobj1.RotationAngle - 2.0;
-
-    if (currGameInput.RightButtonPressed = True)
-        {and (gameobj1.Position.X + 2 + gameobj1.Width <=
-         ClientLayout.Position.X + ClientLayout.Width)} then
-     { gameobj1.Position.X := gameobj1.Position.X + 2;}
-      gameobj1.RotationAngle := gameobj1.RotationAngle + 2.0;
-    if (currGameInput.UpButtonPressed) then
-      gameobj1.Position.Y := gameobj1.Position.Y - (elapsedTime*200/1000);
-    if (currGameInput.DownButtonPressed) then
-      gameobj1.Position.Y := gameobj1.Position.Y + (elapsedTime*200/1000);
+    { process the Input-Info for actions/changed settings }
 
 
     { change state because of game rules, physics... }

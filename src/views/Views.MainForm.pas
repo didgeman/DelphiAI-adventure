@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, Vcl.ToolWin, Vcl.ActnMan,
   Vcl.ActnCtrls, Vcl.ActnMenus, Vcl.StdStyleActnCtrls, Vcl.ExtCtrls,
-  Vcl.ComCtrls, Views.DrawFrame, Data.DB;
+  Vcl.ComCtrls, Views.DrawFrame;
 
 type
   /// represents top most window and therefore kind of view host
@@ -15,7 +15,8 @@ type
     MnuFile: TMenuItem;
     StatusBar: TStatusBar;
     Panel1: TPanel;
-    DrawFrame1: TDrawFrame;
+    PaintBox1: TPaintBox;
+    timRealWorld: TTimer;
   private
     { Private-Deklarationen }
   public

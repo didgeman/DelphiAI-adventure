@@ -852,7 +852,7 @@ unit FastMM4;
 
 interface
 
-{$Include .\include\FastMM4Options.inc}
+{$Include FastMM4Options.inc}
 
 {$RANGECHECKS OFF}
 {$BOOLEVAL OFF}

@@ -12,6 +12,7 @@ object MainForm: TMainForm
   Font.Style = []
   Menu = MainMenu
   OldCreateOrder = False
+  Position = poDesigned
   PixelsPerInch = 96
   TextHeight = 13
   object StatusBar: TStatusBar
@@ -23,30 +24,29 @@ object MainForm: TMainForm
   end
   object Panel1: TPanel
     Left = 0
-    Top = -5
-    Width = 833
-    Height = 358
+    Top = 0
+    Width = 1003
+    Height = 635
+    Align = alClient
     BorderWidth = 1
     BorderStyle = bsSingle
     TabOrder = 1
-    inline DrawFrame1: TDrawFrame
-      Left = 2
-      Top = 2
-      Width = 825
-      Height = 350
-      Align = alClient
-      TabOrder = 0
-      ExplicitLeft = 2
-      ExplicitTop = 2
-      ExplicitWidth = 825
-      ExplicitHeight = 350
+    object PaintBox1: TPaintBox
+      Left = 176
+      Top = 80
+      Width = 705
+      Height = 465
     end
   end
   object MainMenu: TMainMenu
-    Left = 960
-    Top = 32
+    Left = 944
+    Top = 16
     object MnuFile: TMenuItem
       Caption = '&File'
     end
+  end
+  object timRealWorld: TTimer
+    Left = 944
+    Top = 80
   end
 end

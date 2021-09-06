@@ -6,10 +6,7 @@
         <Projects Include="GUICentral.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="Workbench.dproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="MVVM_Minimal.dproj">
+        <Projects Include="GuiControls.dproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -29,32 +26,23 @@
     <Target Name="GUICentral:Make">
         <MSBuild Projects="GUICentral.dproj" Targets="Make"/>
     </Target>
-    <Target Name="Workbench">
-        <MSBuild Projects="Workbench.dproj"/>
+    <Target Name="GuiControls">
+        <MSBuild Projects="GuiControls.dproj"/>
     </Target>
-    <Target Name="Workbench:Clean">
-        <MSBuild Projects="Workbench.dproj" Targets="Clean"/>
+    <Target Name="GuiControls:Clean">
+        <MSBuild Projects="GuiControls.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="Workbench:Make">
-        <MSBuild Projects="Workbench.dproj" Targets="Make"/>
-    </Target>
-    <Target Name="MVVM_Minimal">
-        <MSBuild Projects="MVVM_Minimal.dproj"/>
-    </Target>
-    <Target Name="MVVM_Minimal:Clean">
-        <MSBuild Projects="MVVM_Minimal.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="MVVM_Minimal:Make">
-        <MSBuild Projects="MVVM_Minimal.dproj" Targets="Make"/>
+    <Target Name="GuiControls:Make">
+        <MSBuild Projects="GuiControls.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="GUICentral;Workbench;MVVM_Minimal"/>
+        <CallTarget Targets="GUICentral;GuiControls"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="GUICentral:Clean;Workbench:Clean;MVVM_Minimal:Clean"/>
+        <CallTarget Targets="GUICentral:Clean;GuiControls:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="GUICentral:Make;Workbench:Make;MVVM_Minimal:Make"/>
+        <CallTarget Targets="GUICentral:Make;GuiControls:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

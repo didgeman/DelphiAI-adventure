@@ -7,7 +7,10 @@ object DrawFrame: TDrawFrame
   object PaintBox: TPaintBox
     Left = 0
     Top = 0
-    Width = 585
-    Height = 436
+    Width = 691
+    Height = 439
+    Align = alClient
+    ExplicitWidth = 585
+    ExplicitHeight = 436
   end
 end
