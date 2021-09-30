@@ -6,7 +6,9 @@ uses
   System.SysUtils, System.Types, System.UITypes, System.Generics.Collections,
   System.Classes, System.Variants, FMX.Types, FMX.Controls, FMX.Forms,
   FMX.Graphics, FMX.Dialogs, FMX.Objects, FMX.Layouts,
-  FMX.Controls.Presentation, FMX.StdCtrls, FMX.Calendar, RegularPolygon;
+  FMX.Controls.Presentation, FMX.StdCtrls, FMX.Calendar, RegularPolygon,
+  FMX.Menus, FMX.ListView.Types, FMX.ListView.Appearances,
+  FMX.ListView.Adapters.Base, FMX.ListView;
 
 type
   SGameInput = record
@@ -14,6 +16,18 @@ type
     RightButtonPressed: boolean;
     UpButtonPressed: boolean;
     DownButtonPressed: boolean;
+  end;
+  TDistrictRecord = record
+    longitude: Single;
+    latitude: Single;
+    housing_median_age: Single;
+    total_rooms: Single;
+    total_bedrooms: Single;
+    population: Single;
+    households: Single;
+    median_income: Single;
+    median_house_value: Single;
+    ocean_proximity: String;
   end;
 
   TMainForm = class(TForm)
@@ -25,6 +39,10 @@ type
     lblFPS_Counter: TLabel;
     GameViewPort: TPanel;
     RegularPolygon1: TRegularPolygon;
+    menuBar: TMenuBar;
+    mnitemData: TMenuItem;
+    mnitemLoad: TMenuItem;
+    ListView1: TListView;
     procedure OnGameLoopTick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
       Shift: TShiftState);
@@ -35,6 +53,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure GameViewPortMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Single);
+    procedure mnitemLoadClick(Sender: TObject);
   private
     { Private-Deklarationen }
   public
@@ -172,6 +191,71 @@ begin
   MainForm.AddObject(newObject);
   newObject.Position.X := X;
   newObject.Position.Y := Y;
+end;
+
+procedure TMainForm.mnitemLoadClick(Sender: TObject);
+var
+  tmpFilePath : string;
+  HousingCSVdata : TStringList;
+  tmpStrAry : TArray<string>;
+  tmpRecord : TDistrictRecord;
+  targetArray: array of TDistrictRecord;
+  I, J: Integer;
+  tmpListItem : TListViewItem;
+  myFormatSettings : TFormatSettings;
+begin
+  {TODO: ask user for path to file }
+  tmpFilePath := 'D:\workspace\Delphi\DelphiAI\data\houseprices\housing.csv';
+
+  { setup the settings according to used format in our csv-files }
+  myFormatSettings := TFormatSettings.Create;
+  myFormatSettings.DecimalSeparator := '.';
+
+  try
+    HousingCSVdata := TStringList.Create;
+    try
+      HousingCSVdata.LoadFromFile(tmpFilePath);
+    except
+      On E : Exception Do Begin
+        ShowMessage(E.Message);
+        raise E;        { since we cant continue in meaningful way }
+      End;
+    end;
+    { use length of StringList to reserve memory for data structure }
+    SetLength(targetArray, HousingCSVdata.Count);
+    for I := 1 to HousingCSVdata.Count - 1 do   { Index 0 = Header row }
+    begin
+      tmpStrAry := HousingCSVdata[I].Split([',']);
+      J := 0;
+      with tmpRecord do begin
+        longitude := StrToFloatDef(tmpStrAry[J], 0.0, myFormatSettings);
+        Inc(J);
+        latitude := StrToFloatDef(tmpStrAry[J], 0.0, myFormatSettings);
+        Inc(J);
+        housing_median_age := StrToFloatDef(tmpStrAry[J], 0.0, myFormatSettings);
+        Inc(J);
+        total_rooms := StrToFloatDef(tmpStrAry[J], 0.0, myFormatSettings);
+        Inc(J);
+        total_bedrooms := StrToFloatDef(tmpStrAry[J], 0.0, myFormatSettings);
+        Inc(J);
+        population := StrToFloatDef(tmpStrAry[J], 0.0, myFormatSettings);
+        Inc(J);
+        median_income := StrToFloatDef(tmpStrAry[J], 0.0, myFormatSettings);
+        Inc(J);
+        median_house_value := StrToFloatDef(tmpStrAry[J], 0.0, myFormatSettings);
+        Inc(J);
+        ocean_proximity := tmpStrAry[J];
+        targetArray[I] := tmpRecord;
+        tmpListItem := ListView1.Items.Add;
+        tmpListItem.Text := HousingCSVdata[I];
+      end;
+    end;
+
+  finally
+    HousingCSVdata.Free;
+  end;
+
+
 end;
 
 procedure TMainForm.OnGameLoopTick(Sender: TObject);

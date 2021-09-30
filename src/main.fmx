@@ -17,8 +17,8 @@ object MainForm: TMainForm
   object gameLoopTimer: TTimer
     Interval = 48
     OnTimer = OnGameLoopTick
-    Left = 1047
-    Top = 16
+    Left = 1031
+    Top = 72
   end
   object FrameLayout: TLayout
     Align = Client
@@ -33,9 +33,9 @@ object MainForm: TMainForm
       Size.PlatformDefault = False
       TabOrder = 1
       object chk_IsDoubleBuffered: TCheckBox
-        Position.X = 901.000000000000000000
-        Position.Y = 8.000000000000000000
-        Size.Width = 136.000000000000000000
+        Position.X = 754.000000000000000000
+        Position.Y = 32.000000000000000000
+        Size.Width = 147.000000000000000000
         Size.Height = 19.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 0
@@ -43,13 +43,27 @@ object MainForm: TMainForm
         OnChange = chk_IsDoubleBufferedChange
       end
       object lblFPS_Counter: TLabel
-        Position.X = 964.000000000000000000
+        Position.X = 922.000000000000000000
         Position.Y = 32.000000000000000000
         Size.Width = 72.000000000000000000
         Size.Height = 21.000000000000000000
         Size.PlatformDefault = False
         Text = '0'
         TabOrder = 2
+      end
+      object menuBar: TMenuBar
+        Size.Width = 1109.000000000000000000
+        Size.Height = 24.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 3
+        object mnitemData: TMenuItem
+          Text = 'Data'
+          object mnitemLoad: TMenuItem
+            Locked = True
+            Text = 'mnitemLoad'
+            OnClick = mnitemLoadClick
+          end
+        end
       end
     end
     object StatusPanel: TPanel
@@ -69,6 +83,18 @@ object MainForm: TMainForm
       OnMouseUp = GameViewPortMouseUp
       object RegularPolygon1: TRegularPolygon
         NumberOfSides = 3
+      end
+      object ListView1: TListView
+        ItemAppearanceClassName = 'TListItemAppearance'
+        ItemEditAppearanceClassName = 'TListItemShowCheckAppearance'
+        HeaderAppearanceClassName = 'TListHeaderObjects'
+        FooterAppearanceClassName = 'TListHeaderObjects'
+        Position.X = 336.000000000000000000
+        Position.Y = 296.000000000000000000
+        Size.Width = 665.000000000000000000
+        Size.Height = 305.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
       end
     end
   end
