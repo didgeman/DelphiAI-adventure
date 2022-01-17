@@ -81,20 +81,28 @@ object MainForm: TMainForm
       Size.PlatformDefault = False
       TabOrder = 3
       OnMouseUp = GameViewPortMouseUp
-      object RegularPolygon1: TRegularPolygon
-        NumberOfSides = 3
-      end
-      object ListView1: TListView
-        ItemAppearanceClassName = 'TListItemAppearance'
-        ItemEditAppearanceClassName = 'TListItemShowCheckAppearance'
-        HeaderAppearanceClassName = 'TListHeaderObjects'
-        FooterAppearanceClassName = 'TListHeaderObjects'
-        Position.X = 336.000000000000000000
-        Position.Y = 296.000000000000000000
-        Size.Width = 665.000000000000000000
-        Size.Height = 305.000000000000000000
+      object GridPanelLayout1: TGridPanelLayout
+        Position.X = 160.000000000000000000
+        Position.Y = 96.000000000000000000
+        Size.Width = 481.000000000000000000
+        Size.Height = 249.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 0
+        ColumnCollection = <
+          item
+            Value = 50.000000000000000000
+          end
+          item
+            Value = 50.000000000000000000
+          end>
+        ControlCollection = <>
+        RowCollection = <
+          item
+            Value = 50.000000000000000000
+          end
+          item
+            Value = 50.000000000000000000
+          end>
       end
     end
   end

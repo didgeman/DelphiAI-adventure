@@ -10,7 +10,9 @@ uses
   System.StartUpCopy,
   FMX.Forms,
   main in 'src\main.pas' {MainForm},
-  u_Game in 'src\u_Game.pas';
+  u_Game in 'src\u_Game.pas',
+  RegularPolygon in 'src\gui\RegularPolygon.pas',
+  frmHousingUseCase in 'src\gui\frmHousingUseCase.pas' {HousingForm};
 
 {$R *.res}
 

@@ -17,18 +17,6 @@ type
     UpButtonPressed: boolean;
     DownButtonPressed: boolean;
   end;
-  TDistrictRecord = record
-    longitude: Single;
-    latitude: Single;
-    housing_median_age: Single;
-    total_rooms: Single;
-    total_bedrooms: Single;
-    population: Single;
-    households: Single;
-    median_income: Single;
-    median_house_value: Single;
-    ocean_proximity: String;
-  end;
 
   TMainForm = class(TForm)
     gameLoopTimer: TTimer;
@@ -38,11 +26,10 @@ type
     chk_IsDoubleBuffered: TCheckBox;
     lblFPS_Counter: TLabel;
     GameViewPort: TPanel;
-    RegularPolygon1: TRegularPolygon;
     menuBar: TMenuBar;
     mnitemData: TMenuItem;
     mnitemLoad: TMenuItem;
-    ListView1: TListView;
+    GridPanelLayout1: TGridPanelLayout;
     procedure OnGameLoopTick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
       Shift: TShiftState);
@@ -61,7 +48,7 @@ type
   end;
 
 const
-  FPS_HISTORY_SIZE = 15;
+  FPS_HISTORY_SIZE = 50;
 
 var
   MainForm: TMainForm;
@@ -80,6 +67,8 @@ procedure stopGame();
 implementation
 
 {$R *.fmx}
+
+uses frmHousingUseCase;
 
 var
   IsGameRunning: Boolean;
@@ -195,67 +184,15 @@ end;
 
 procedure TMainForm.mnitemLoadClick(Sender: TObject);
 var
-  tmpFilePath : string;
-  HousingCSVdata : TStringList;
-  tmpStrAry : TArray<string>;
-  tmpRecord : TDistrictRecord;
-  targetArray: array of TDistrictRecord;
-  I, J: Integer;
-  tmpListItem : TListViewItem;
-  myFormatSettings : TFormatSettings;
+  dummy: string;
+  modalHouseUC: THousingForm;
 begin
-  {TODO: ask user for path to file }
-  tmpFilePath := 'D:\workspace\Delphi\DelphiAI\data\houseprices\housing.csv';
-
-  { setup the settings according to used format in our csv-files }
-  myFormatSettings := TFormatSettings.Create;
-  myFormatSettings.DecimalSeparator := '.';
-
+  modalHouseUC := THousingForm.Create(Self);
   try
-    HousingCSVdata := TStringList.Create;
-    try
-      HousingCSVdata.LoadFromFile(tmpFilePath);
-    except
-      On E : Exception Do Begin
-        ShowMessage(E.Message);
-        raise E;        { since we cant continue in meaningful way }
-      End;
-    end;
-    { use length of StringList to reserve memory for data structure }
-    SetLength(targetArray, HousingCSVdata.Count);
-    for I := 1 to HousingCSVdata.Count - 1 do   { Index 0 = Header row }
-    begin
-      tmpStrAry := HousingCSVdata[I].Split([',']);
-      J := 0;
-      with tmpRecord do begin
-        longitude := StrToFloatDef(tmpStrAry[J], 0.0, myFormatSettings);
-        Inc(J);
-        latitude := StrToFloatDef(tmpStrAry[J], 0.0, myFormatSettings);
-        Inc(J);
-        housing_median_age := StrToFloatDef(tmpStrAry[J], 0.0, myFormatSettings);
-        Inc(J);
-        total_rooms := StrToFloatDef(tmpStrAry[J], 0.0, myFormatSettings);
-        Inc(J);
-        total_bedrooms := StrToFloatDef(tmpStrAry[J], 0.0, myFormatSettings);
-        Inc(J);
-        population := StrToFloatDef(tmpStrAry[J], 0.0, myFormatSettings);
-        Inc(J);
-        median_income := StrToFloatDef(tmpStrAry[J], 0.0, myFormatSettings);
-        Inc(J);
-        median_house_value := StrToFloatDef(tmpStrAry[J], 0.0, myFormatSettings);
-        Inc(J);
-        ocean_proximity := tmpStrAry[J];
-        targetArray[I] := tmpRecord;
-        tmpListItem := ListView1.Items.Add;
-        tmpListItem.Text := HousingCSVdata[I];
-      end;
-    end;
-
+    modalHouseUC.showModal();
   finally
-    HousingCSVdata.Free;
+    modalHouseUC.Free;
   end;
-
-
 end;
 
 procedure TMainForm.OnGameLoopTick(Sender: TObject);
