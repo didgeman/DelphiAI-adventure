@@ -123,7 +123,7 @@ Set the default options for FastMM here.
  Very important: If you enable this option your application will require the
  FastMM_FullDebugMode.dll library. If this library is not available you will
  get an error on startup.}
-{.$define FullDebugMode}
+{$define FullDebugMode}
 
   {Set this option to perform "raw" stack traces, i.e. check all entries on the
    stack for valid return addresses. Note that this is significantly slower
@@ -153,7 +153,7 @@ Set the default options for FastMM here.
 
   {Deletes the error log file on startup. No effect if LogErrorsToFile is not
    also set.}
-  {.$define ClearLogFileOnStartup}
+  {$define ClearLogFileOnStartup}
 
   {Loads the FASTMM_FullDebugMode.dll dynamically. If the DLL cannot be found
    then stack traces will not be available. Note that this may cause problems
@@ -251,7 +251,7 @@ Set the default options for FastMM here.
  AMD K5, Pentium I and earlier CPUs. MMX is currently only used in the variable
  size move routines, so if UseCustomVariableSizeMoveRoutines is not set then
  this option has no effect.}
-{.$define EnableMMX}
+{$define EnableMMX}
 
   {Set this option to force the use of MMX instructions without checking
    whether the CPU supports it. If this option is disabled then the CPU will be

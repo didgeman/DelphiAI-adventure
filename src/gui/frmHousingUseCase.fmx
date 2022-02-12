@@ -14,10 +14,17 @@ object HousingForm: THousingForm
     HeaderAppearanceClassName = 'TListHeaderObjects'
     FooterAppearanceClassName = 'TListHeaderObjects'
     Position.X = 56.000000000000000000
-    Position.Y = 56.000000000000000000
+    Position.Y = 38.000000000000000000
     Size.Width = 513.000000000000000000
-    Size.Height = 369.000000000000000000
+    Size.Height = 362.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 0
+  end
+  object Button1: TButton
+    Position.X = 56.000000000000000000
+    Position.Y = 424.000000000000000000
+    TabOrder = 1
+    Text = 'Button1'
+    OnClick = Button1Click
   end
 end

@@ -6,7 +6,7 @@ uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
   FMX.ListView.Types, FMX.ListView.Appearances, FMX.ListView.Adapters.Base,
-  FMX.ListView;
+  FMX.ListView, FMX.Controls.Presentation, FMX.StdCtrls;
 
 type
   TDistrictRecord = record
@@ -23,6 +23,8 @@ type
   end;
   THousingForm = class(TForm)
     ListView1: TListView;
+    Button1: TButton;
+    procedure Button1Click(Sender: TObject);
   private
     { Private declarations }
     tmpFilePath : string;
@@ -81,7 +83,7 @@ begin
         if tmpStrAry[J] <> '' then
           total_bedrooms := StrToFloatDef(tmpStrAry[J], 0.0, myFormatSettings)
         else
-          total_bedrooms := Null;
+          total_bedrooms := 0.0;
         Inc(J);
         population := StrToFloatDef(tmpStrAry[J], 0.0, myFormatSettings);
         Inc(J);
@@ -103,5 +105,10 @@ begin
 end;
 
 {$R *.fmx}
+
+procedure THousingForm.Button1Click(Sender: TObject);
+begin
+  execHousing();
+end;
 
 end.

@@ -10,6 +10,7 @@ object MainForm: TMainForm
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
   OnCreate = FormCreate
+  OnClose = FormClose
   OnDestroy = FormDestroy
   OnKeyDown = FormKeyDown
   OnKeyUp = FormKeyUp
@@ -82,6 +83,7 @@ object MainForm: TMainForm
       TabOrder = 3
       OnMouseUp = GameViewPortMouseUp
       object GridPanelLayout1: TGridPanelLayout
+        HitTest = False
         Position.X = 160.000000000000000000
         Position.Y = 96.000000000000000000
         Size.Width = 481.000000000000000000
@@ -95,7 +97,27 @@ object MainForm: TMainForm
           item
             Value = 50.000000000000000000
           end>
-        ControlCollection = <>
+        ControlCollection = <
+          item
+            Column = 0
+            Control = Ellipse1
+            Row = 0
+          end
+          item
+            Column = 1
+            Control = RoundRect1
+            Row = 0
+          end
+          item
+            Column = 0
+            Control = Rectangle1
+            Row = 1
+          end
+          item
+            Column = 1
+            Control = Arc1
+            Row = 1
+          end>
         RowCollection = <
           item
             Value = 50.000000000000000000
@@ -103,6 +125,39 @@ object MainForm: TMainForm
           item
             Value = 50.000000000000000000
           end>
+        object Ellipse1: TEllipse
+          Anchors = []
+          Position.X = 95.250000000000000000
+          Position.Y = 37.250000000000000000
+          Size.Width = 50.000000000000000000
+          Size.Height = 50.000000000000000000
+          Size.PlatformDefault = False
+        end
+        object RoundRect1: TRoundRect
+          Anchors = []
+          Position.X = 335.750000000000000000
+          Position.Y = 37.250000000000000000
+          Size.Width = 50.000000000000000000
+          Size.Height = 50.000000000000000000
+          Size.PlatformDefault = False
+        end
+        object Rectangle1: TRectangle
+          Anchors = []
+          Position.X = 95.250000000000000000
+          Position.Y = 161.750000000000000000
+          Size.Width = 50.000000000000000000
+          Size.Height = 50.000000000000000000
+          Size.PlatformDefault = False
+        end
+        object Arc1: TArc
+          Anchors = []
+          Position.X = 335.750000000000000000
+          Position.Y = 161.750000000000000000
+          Size.Width = 50.000000000000000000
+          Size.Height = 50.000000000000000000
+          Size.PlatformDefault = False
+          EndAngle = -90.000000000000000000
+        end
       end
     end
   end

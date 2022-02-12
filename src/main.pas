@@ -30,6 +30,10 @@ type
     mnitemData: TMenuItem;
     mnitemLoad: TMenuItem;
     GridPanelLayout1: TGridPanelLayout;
+    Ellipse1: TEllipse;
+    RoundRect1: TRoundRect;
+    Rectangle1: TRectangle;
+    Arc1: TArc;
     procedure OnGameLoopTick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
       Shift: TShiftState);
@@ -41,6 +45,7 @@ type
     procedure GameViewPortMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Single);
     procedure mnitemLoadClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private-Deklarationen }
   public
@@ -114,6 +119,11 @@ begin
     DoubleBuffered := False;}
 end;
 
+procedure TMainForm.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  Application.Terminate;
+end;
+
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
   lastTime := TThread.GetTickCount;
@@ -176,6 +186,7 @@ Var
   newObject: TRectangle;
 begin
   newObject := TRectangle.Create(MainForm.GameViewPort);
+  newObject.Opacity := 0.3;
   { GameObjList.Add(newObject); }
   MainForm.AddObject(newObject);
   newObject.Position.X := X;

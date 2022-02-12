@@ -197,18 +197,13 @@
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
         <DCCReference Include="src\FastMM4.pas"/>
-        <DCCReference Include="src\FastMM4DataCollector.pas"/>
-        <DCCReference Include="src\FastMM4LockFreeStack.pas"/>
-        <DCCReference Include="src\FastMM4Messages.pas"/>
         <DCCReference Include="src\main.pas">
             <Form>MainForm</Form>
-            <FormType>fmx</FormType>
         </DCCReference>
         <DCCReference Include="src\u_Game.pas"/>
         <DCCReference Include="src\gui\RegularPolygon.pas"/>
         <DCCReference Include="src\gui\frmHousingUseCase.pas">
             <Form>HousingForm</Form>
-            <FormType>fmx</FormType>
         </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
