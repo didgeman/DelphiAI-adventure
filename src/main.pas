@@ -8,7 +8,8 @@ uses
   FMX.Graphics, FMX.Dialogs, FMX.Objects, FMX.Layouts,
   FMX.Controls.Presentation, FMX.StdCtrls, FMX.Calendar, RegularPolygon,
   FMX.Menus, FMX.ListView.Types, FMX.ListView.Appearances,
-  FMX.ListView.Adapters.Base, FMX.ListView;
+  FMX.ListView.Adapters.Base, FMX.ListView, FMX.Memo.Types, FMX.ScrollBox,
+  FMX.Memo;
 
 type
   SGameInput = record
@@ -29,11 +30,10 @@ type
     menuBar: TMenuBar;
     mnitemData: TMenuItem;
     mnitemLoad: TMenuItem;
-    GridPanelLayout1: TGridPanelLayout;
-    Ellipse1: TEllipse;
-    RoundRect1: TRoundRect;
-    Rectangle1: TRectangle;
-    Arc1: TArc;
+    memStatus: TMemo;
+    pnlPlayArea: TPanel;
+    PlayAreaBck: TRectangle;
+    Ship: TRectangle;
     procedure OnGameLoopTick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
       Shift: TShiftState);
@@ -46,14 +46,22 @@ type
       Shift: TShiftState; X, Y: Single);
     procedure mnitemLoadClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure PlayAreaBckMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Single);
+    procedure ShipClick(Sender: TObject);
   private
     { Private-Deklarationen }
+    FObjList: TList<TRectangle>;
+    FCurrSelObj: TRectangle;
   public
     { Public-Deklarationen }
   end;
 
 const
   FPS_HISTORY_SIZE = 50;
+  RotationSpeed = 10;
+  velocity_x = 20;        { means 20 Pixels per second }
+  velocity_y = 20;
 
 var
   MainForm: TMainForm;
@@ -72,6 +80,7 @@ procedure stopGame();
 implementation
 
 {$R *.fmx}
+{$R *.Windows.fmx MSWINDOWS}
 
 uses frmHousingUseCase;
 
@@ -121,6 +130,8 @@ end;
 
 procedure TMainForm.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+  FObjList.Clear;
+  FObjList.Free;
   Application.Terminate;
 end;
 
@@ -130,6 +141,7 @@ begin
   Fillchar(fpsHistory, SizeOf(fpsHistory), 0);
   fpsIdx := 0;
   lastFPSDisplayTime := TThread.GetTickCount;
+  FObjList := TList<TRectangle>.Create;
   InitGame;
 end;
 
@@ -228,15 +240,60 @@ begin
     end;
 
     { process the Input-Info for actions/changed settings }
+    {
+    if currGameInput.LeftButtonPressed = True then
+      Player.RotationAngle := Player.RotationAngle - RotationSpeed;
+
+    if currGameInput.RightButtonPressed = True then
+      Player.RotationAngle := Player.RotationAngle + RotationSpeed;
+    }
+
+    { change state because of game rules, physics = moving... }
+    {
+    Player.Position.X := Player.Position.X + (elapsedTime * velocity_x / 1000.0);
+    Player.Position.Y := Player.Position.Y + (elapsedTime * velocity_y / 1000.0);
 
 
-    { change state because of game rules, physics... }
+    if Player.Position.X >= pnlPlayArea.Size.Width then
+      Player.Position.X := pnlPlayArea.Size.Width - 1;
 
+    if Player.Position.Y >= pnlPlayArea.Size.Height then
+      Player.Position.Y := pnlPlayArea.Size.Height - 1;
+    }
 
     { render ?? implicit }
     GameViewPort.EndUpdate;
-  end;
+  end
+  else
+    lastTime := TThread.GetTickCount;
 
+end;
+
+procedure TMainForm.PlayAreaBckMouseUp(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Single);
+Var
+  newObject: TRectangle;
+begin
+  memStatus.Lines.Add('X: ' + FloatToStr(X) + '; Y: ' + FloatToStr(Y));
+  newObject := TRectangle.Create(MainForm.PlayAreaBck);
+  { GameObjList.Add(newObject); }
+  newObject.Position.X := X;
+  newObject.Position.Y := Y;
+  newObject.Stroke.Kind := TBrushKind.Solid;
+  newObject.Fill.Kind := TBrushKind.Bitmap;
+  newObject.Fill.Bitmap.WrapMode := TWrapMode.TileStretch;
+  newObject.Fill.Bitmap.Bitmap.LoadFromFile('ship.png');
+  newObject.OnClick := ShipClick;
+  PlayAreaBck.AddObject(newObject);
+  FObjList.Add(newObject);
+end;
+
+procedure TMainForm.ShipClick(Sender: TObject);
+begin
+  if Assigned(FCurrSelObj) then
+    FCurrSelObj.Stroke.Color := TAlphaColorRec.Black;
+  FCurrSelObj := Sender as TRectangle;
+  FCurrSelObj.Stroke.Color := TAlphaColorRec.Red;
 end;
 
 initialization
